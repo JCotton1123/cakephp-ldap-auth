@@ -39,10 +39,11 @@ Ex:
 
 ## Caveats
 
-* Probably not the best way to implement but its simple to keeps things simple
-* The user's primary group is ignored. If you care to know why, look at the comments within the source.
+* Probably not the best way to implement this but its simple
+* The user's primary group is ignored. Sorry if this is a deal breaker. If you care to know why, look at the comments within the source.
 * I've never tested this with anything but AuthComponent and the Form authenticator.
 
 ## To Do
 
 * Make things more agnostic so it supports authentication against OpenLDAP or others.
+* Fix styling issues
