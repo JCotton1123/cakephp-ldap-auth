@@ -46,4 +46,5 @@ Ex:
 ## To Do
 
 * Make things more agnostic so it supports authentication against OpenLDAP or others.
+* Fire off a callback at the model if a special method is defined to allow the model to modify the data or add to it as needed.
 * Fix styling issues
