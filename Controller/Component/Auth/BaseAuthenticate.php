@@ -88,11 +88,9 @@ abstract class BaseAuthenticate {
         //Get user group membership
         $userGroups = $this->_getADUserGroups($ldapConn, $userDn);
 
-        if($this->settings['requireGroup'] !== false){
-            $groupNameList = Hash::extract($userGroups, '{n}.name');
-            if(!in_array($this->settings['requireGroup'], $groupNameList))
-                return false;
-        }
+        //Check if a user is a member of the required group
+        if(!$this->_isMemberOfRequiredGroup($userGroups))
+            return false;
 
         return array_merge(
             $userAttributes,
@@ -216,6 +214,28 @@ abstract class BaseAuthenticate {
         $primaryGroupId = $entries[0]['primarygroupid'][0];
 
         return $groups;
+    }
+
+/**
+ * Check if there is an intersection between the required groups and the
+ * member groups.
+ */
+    private function _isMemberOfRequiredGroup($memberGroups){
+
+        if($this->settings['requireGroup'] === false)
+            return true;
+
+        $groupNameList = Hash::extract($memberGroups, '{n}.name');
+
+        if(is_array($this->settings['requireGroup'])) {
+            foreach($groupNameList as $group){
+                if(in_array($group, $this->settings['requireGroup']))
+                    return true;
+            }
+            return false;
+        }
+
+        return in_array($this->settings['requireGroup'], $groupNameList);
     }
 
 /**
